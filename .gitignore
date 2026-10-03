@@ -1,0 +1,4 @@
+/target
+*.vpak
+/.vpak/
+.DS_Store

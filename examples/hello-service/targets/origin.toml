@@ -1,0 +1,14 @@
+[target]
+summary  = "GCP Cloud Run, public HTTPS, single region"
+origin   = "explicit"
+provider = "gcp"
+region   = "us-central1"
+
+[target.access]
+credentials = "gcloud application-default"
+secrets     = "none required"
+
+[target.mapping]
+"cloud-run"      = "cloud-run"
+"github-actions" = "github-actions"
+"artifact-registry" = "artifact-registry"

@@ -1,0 +1,23 @@
+format  = 1
+name    = "hello-service"
+version = "0.1.0"
+created = "2026-10-02T21:00:00Z"
+packer  = "vpak examples"
+summary = "A small HTTP service with a health endpoint and one JSON endpoint, shipped as a container with CI and Terraform for GCP Cloud Run."
+
+[reference]
+root  = "reference/"
+kind  = "gcp"
+entry = ["Dockerfile", ".github/workflows/ci.yml", "terraform/"]
+
+[intent]
+order = ["00-overview.md", "10-api.md"]
+
+[bootstrap]
+seed   = "bootstrap/seed.md"
+policy = "bootstrap/policy.toml"
+
+[[targets]]
+name    = "origin"
+summary = "GCP Cloud Run, public, single region, as shipped"
+path    = "targets/origin.toml"

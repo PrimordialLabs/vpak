@@ -1,0 +1,7 @@
+{
+  "id": "vpak",
+  "name": "vpak",
+  "description": "Intent-based software packaging: install a .vpak to any target, or pack a directory as one. Requires the vpak CLI on PATH.",
+  "version": "0.1.0",
+  "skills": ["vpak"]
+}

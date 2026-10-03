@@ -1,0 +1,25 @@
+[package]
+name = "vpak"
+description = "Intent-based software packaging: pack a reference realization, install it to any target"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[[bin]]
+name = "vpak"
+path = "src/main.rs"
+
+[dependencies]
+vpak-core = { path = "../vpak-core" }
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+toml.workspace = true
+chrono.workspace = true
+clap.workspace = true
+is-terminal.workspace = true
+dialoguer.workspace = true
+console.workspace = true
+shlex.workspace = true
+tempfile.workspace = true

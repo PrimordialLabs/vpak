@@ -1,0 +1,28 @@
+# Default runner policy for a vpak. The packer refines this at pack time; the
+# installer refines it again during the install. The claude runner maps
+# [classifier] onto Claude Code's autoMode settings.
+
+permission_mode  = "auto"
+allowed_tools    = ["Read", "Grep", "Glob", "Bash(vpak *)", "Bash(ls *)", "Bash(cat *)", "Bash(uname *)", "Bash(which *)"]
+disallowed_tools = ["Bash(rm -rf *)"]
+
+[classifier]
+environment = [
+  "This is a vpak install. The working directory holds reasoning; the destination directory holds the installation.",
+  "Until the execute phase, the target environment is read-only.",
+]
+allow = [
+  "Read-only describe, list, get, and show calls against the target provider.",
+  "Running vpak primitives.",
+]
+soft_deny = [
+  "Any create, update, delete, apply, or deploy call before the execute phase.",
+]
+hard_deny = [
+  "Printing or copying credential material.",
+  "Modifying identity or access policy outside a recorded plan step.",
+]
+
+[budget]
+max_turns  = 60
+wall_clock = "45m"

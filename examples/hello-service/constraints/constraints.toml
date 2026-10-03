@@ -1,0 +1,14 @@
+[[constraint]]
+key   = "tls"
+value = "platform-managed"
+text  = "HTTPS with a platform-managed certificate; no self-signed certificates."
+
+[[constraint]]
+key   = "container.user"
+value = "non-root"
+text  = "The container runs as a non-root user."
+
+[[constraint]]
+key   = "deploy.trigger"
+value = "ci-main"
+text  = "Deploys are triggered by CI from the main branch."
