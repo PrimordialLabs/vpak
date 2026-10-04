@@ -191,8 +191,8 @@ pub fn identity() -> String {
 }
 
 /// Split a command template into argv without invoking a shell. POSIX
-/// shell-style on Unix; on Windows, whitespace-separated with double quotes
-/// and no backslash escapes, so `C:\path\x.exe` survives.
+/// shell-style on Unix; on Windows, whitespace-separated with double or
+/// single quotes and no backslash escapes, so `C:\path\x.exe` survives.
 pub fn split_argv(template: &str) -> Result<Vec<String>> {
     let argv = if cfg!(windows) {
         split_windows(template)
@@ -210,27 +210,32 @@ pub fn split_argv(template: &str) -> Result<Vec<String>> {
 fn split_windows(s: &str) -> Option<Vec<String>> {
     let mut out = Vec::new();
     let mut cur = String::new();
-    let mut in_q = false;
+    // The quote character that opened the current quoted run, if any. A run
+    // opened with `"` closes only on `"`, and likewise for `'`.
+    let mut quote: Option<char> = None;
     let mut had = false;
     for c in s.chars() {
-        match c {
-            '"' => {
-                in_q = !in_q;
+        match (c, quote) {
+            (q, Some(open)) if q == open => {
+                quote = None;
+            }
+            ('"' | '\'', None) => {
+                quote = Some(c);
                 had = true;
             }
-            c if c.is_whitespace() && !in_q => {
+            (c, None) if c.is_whitespace() => {
                 if had {
                     out.push(std::mem::take(&mut cur));
                     had = false;
                 }
             }
-            c => {
+            (c, _) => {
                 cur.push(c);
                 had = true;
             }
         }
     }
-    if in_q {
+    if quote.is_some() {
         return None;
     }
     if had {
@@ -242,6 +247,21 @@ fn split_windows(s: &str) -> Option<Vec<String>> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn windows_splitter_handles_both_quote_styles() {
+        assert_eq!(
+            split_windows(r#"python3 "my agent.py" --flag 'x y' C:\p\x.exe"#).unwrap(),
+            vec!["python3", "my agent.py", "--flag", "x y", r"C:\p\x.exe"]
+        );
+        assert_eq!(
+            split_windows(r#"a "it's" 'say "hi"'"#).unwrap(),
+            vec!["a", "it's", r#"say "hi""#]
+        );
+        assert!(split_windows("unbalanced 'quote").is_none());
+        assert!(split_windows(r#"unbalanced "quote"#).is_none());
+        assert_eq!(split_windows(r#""""#).unwrap(), vec![""]);
+    }
 
     #[test]
     fn slug_basic() {

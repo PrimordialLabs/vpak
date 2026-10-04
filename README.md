@@ -24,9 +24,20 @@ together.
 
 ## Install
 
+Straight from GitHub, no clone needed (requires a Rust toolchain):
+
+```
+cargo install --git https://github.com/primordiallabs/vpak vpak
+```
+
+Or from a checkout of this repo:
+
 ```
 cargo install --path crates/vpak
 ```
+
+Either way the `vpak` binary lands in `~/.cargo/bin`. Builds on macOS, Linux
+and Windows.
 
 Default runner is headless Claude Code (`claude -p`). Any process that can be
 told what to do can be a runner; see "Runners".
