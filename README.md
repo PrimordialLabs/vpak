@@ -143,7 +143,7 @@ session drives the same primitives. The audit trail is identical.
 
 ## Fleet handoff
 
-Large installs hand off to [vflt](../vflt): `vpak fleet bootstrap` creates a
+Large installs hand off to [vflt](https://github.com/primordiallabs/vflt): `vpak fleet bootstrap` creates a
 collective at `<dest>/.vflt`, installs a supervisor profile whose standing
 instructions are the compiled bootstrap, and seeds one item per plan step.
 vflt is reached as a separate binary (`vflt` on PATH or `VFLT_BIN`).
