@@ -161,3 +161,7 @@ tests use fixtures built into the binary. CI runs on all three.
 
 - [docs/DESIGN.md](docs/DESIGN.md) — the design: two halves, archive format,
   install workdir, phases, primitives, runner, skill mode, fleet handoff.
+
+## License
+
+Apache-2.0. See [LICENSE](LICENSE).
